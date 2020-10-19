@@ -1,0 +1,27 @@
+Aluno: Rodrigo Abreu Bello
+Trabalho 1: Matriz de Adjacência
+
+1. Para rodar o programa, execute o arquivo 'main.py' com o python (3.5 ou superior):
+
+	python3 main.py ou ./main.py ou make run
+
+2. Para a entrada da diagonal superior, caso queira ler de um arquivo, adicione um elemento em cada linha do arquivo:
+	
+	para a diagonal superior:
+		1 0 1 0
+		  0 1 1
+		    1 1
+		      1
+
+	crie um arquivo, na raiz do projeto assim:
+
+		1
+		0
+		1
+		0
+		0
+		1
+		1
+		1
+		1
+		1
