@@ -150,31 +150,26 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             self.factory.build_matrix_for_wheel_graph,
             2
         )
-        self.assertRaises(
-            self.factory.InvalidMatrixParameter,
-            self.factory.build_matrix_for_wheel_graph,
-            3
-        )
-        W4 = self.factory.build_matrix_for_wheel_graph(4)
-        self.assertIsInstance(W4, AdjacencyMatrix)
-        self.assertEqual(W4.matrix,[
+        W3 = self.factory.build_matrix_for_wheel_graph(3)
+        self.assertIsInstance(W3, AdjacencyMatrix)
+        self.assertEqual(W3.matrix,[
             [0, 1, 1, 1],
             [1, 0, 1, 1],
             [1, 1, 0, 1],
             [1, 1, 1, 0],
         ])
-        W5 = self.factory.build_matrix_for_wheel_graph(5)
-        self.assertIsInstance(W5, AdjacencyMatrix)
-        self.assertEqual(W5.matrix,[
+        W4 = self.factory.build_matrix_for_wheel_graph(4)
+        self.assertIsInstance(W4, AdjacencyMatrix)
+        self.assertEqual(W4.matrix,[
             [0, 1, 0, 1, 1],
             [1, 0, 1, 0, 1],
             [0, 1, 0, 1, 1],
             [1, 0, 1, 0, 1],
             [1, 1, 1, 1, 0],
         ])
-        W6 = self.factory.build_matrix_for_wheel_graph(6)
-        self.assertIsInstance(W6, AdjacencyMatrix)
-        self.assertEqual(W6.matrix,[
+        W5 = self.factory.build_matrix_for_wheel_graph(5)
+        self.assertIsInstance(W5, AdjacencyMatrix)
+        self.assertEqual(W5.matrix,[
             [0, 1, 0, 0, 1, 1],
             [1, 0, 1, 0, 0, 1],
             [0, 1, 0, 1, 0, 1],
@@ -223,14 +218,24 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
         ])
 
     def test_build_matrix_for_complete_bipartite_graph(self):
-        K1_1 = self.factory.build_matrix_for_complete_bipartite_graph(1, 1)
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_bipartite_graph,
+            1
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_bipartite_graph,
+            (1,)
+        )
+        K1_1 = self.factory.build_matrix_for_complete_bipartite_graph([1, 1])
         self.assertIsInstance(K1_1, AdjacencyMatrix)
         self.assertEqual(
             K1_1.matrix,
             [[0, 1], [1, 0]]
         )
 
-        K1_2 = self.factory.build_matrix_for_complete_bipartite_graph(1, 2)
+        K1_2 = self.factory.build_matrix_for_complete_bipartite_graph([1, 2])
         self.assertIsInstance(K1_1, AdjacencyMatrix)
         self.assertEqual(K1_2.matrix,[
             [0, 1, 0],
@@ -238,7 +243,7 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [0, 1, 0],
         ])
 
-        K2_1 = self.factory.build_matrix_for_complete_bipartite_graph(2, 1)
+        K2_1 = self.factory.build_matrix_for_complete_bipartite_graph([2, 1])
         self.assertIsInstance(K2_1, AdjacencyMatrix)
         self.assertEqual(K2_1.matrix,[
             [0, 1, 0],
@@ -246,7 +251,7 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [0, 1, 0],
         ])
 
-        K2_2 = self.factory.build_matrix_for_complete_bipartite_graph(2, 2)
+        K2_2 = self.factory.build_matrix_for_complete_bipartite_graph([2, 2])
         self.assertIsInstance(K2_2, AdjacencyMatrix)
         self.assertEqual(K2_2.matrix,[
             [0, 0, 1, 1],
@@ -255,7 +260,7 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [1, 1, 0, 0],
         ])
 
-        K2_3 = self.factory.build_matrix_for_complete_bipartite_graph(2, 3)
+        K2_3 = self.factory.build_matrix_for_complete_bipartite_graph([2, 3])
         self.assertIsInstance(K2_3, AdjacencyMatrix)
         self.assertEqual(K2_3.matrix,[
             [0, 0, 1, 1, 1],
@@ -265,7 +270,7 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [1, 1, 0, 0, 0],
         ])
 
-        K3_2 = self.factory.build_matrix_for_complete_bipartite_graph(3, 2)
+        K3_2 = self.factory.build_matrix_for_complete_bipartite_graph([3, 2])
         self.assertIsInstance(K3_2, AdjacencyMatrix)
         self.assertEqual(K3_2.matrix,[
             [0, 0, 0, 1, 1],
@@ -275,7 +280,7 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [1, 1, 1, 0, 0],
         ])
 
-        K3_3 = self.factory.build_matrix_for_complete_bipartite_graph(3, 3)
+        K3_3 = self.factory.build_matrix_for_complete_bipartite_graph([3, 3])
         self.assertIsInstance(K3_3, AdjacencyMatrix)
         self.assertEqual(K3_3.matrix,[
             [0, 0, 0, 1, 1, 1],

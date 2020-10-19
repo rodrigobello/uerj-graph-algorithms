@@ -2,6 +2,7 @@ import io
 import sys
 from unittest import TestCase, mock
 from src.graph_store import GraphStore
+from src import constants as C
 
 
 class GraphStoreTestCase(TestCase):

@@ -30,7 +30,7 @@ class GraphStore:
         if class_name == C.COMPLETE_GRAPH:
             adjacency_matrix = self.factory.build_matrix_for_complete_graph(n)
         elif class_name == C.COMPLETE_BIPARTITE_GRAPH:
-            adjacency_matrix = self.factory.build_matrix_for_complete_bipartite_graph(n[0], n[1])
+            adjacency_matrix = self.factory.build_matrix_for_complete_bipartite_graph(n)
         elif class_name == C.STAR_GRAPH:
             adjacency_matrix = self.factory.build_matrix_for_star_graph(n)
         elif class_name == C.CYCLE_GRAPH:

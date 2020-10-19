@@ -30,10 +30,14 @@ class AdjacencyMatrixFactory:
         return adjacency_matrix
 
     def build_matrix_for_star_graph(self, n):
-        return self.build_matrix_for_complete_bipartite_graph(1, n)
+        return self.build_matrix_for_complete_bipartite_graph([1, n])
 
-    def build_matrix_for_complete_bipartite_graph(self, n1, n2):
-        n = n1 + n2
+    def build_matrix_for_complete_bipartite_graph(self, n):
+        try:
+            n1, n2 = n
+            n = n1 + n2
+        except Exception:
+            raise self.InvalidMatrixParameter('Parâmetro inválido! Os valores n1 e n2 de Kn1,n2 devem ser separados por virgula.')
         if n <= 3:
             return self.build_matrix_for_path_graph(n)
         adjacency_matrix = AdjacencyMatrix(n)
@@ -59,19 +63,19 @@ class AdjacencyMatrixFactory:
 
     def build_matrix_for_cycle_graph(self, n):
         if n < 3:
-            raise self.InvalidMatrixParameter()
+            raise self.InvalidMatrixParameter('Parâmetro inválido! O valor n de Cn deve ser maior ou igual 3.')
         adjacency_matrix = self.build_matrix_for_path_graph(n)
         adjacency_matrix.matrix[n - 1][0] = 1
         adjacency_matrix.matrix[0][n - 1] = 1
         return adjacency_matrix
 
     def build_matrix_for_wheel_graph(self, n):
-        if n < 4:
-            raise self.InvalidMatrixParameter()
-        adjacency_matrix = self.build_matrix_for_cycle_graph(n - 1)
-        for i in range(n - 1):
+        if n < 3:
+            raise self.InvalidMatrixParameter('Parâmetro inválido! O valor n de Wn deve ser maior ou igual 3.')
+        adjacency_matrix = self.build_matrix_for_cycle_graph(n)
+        for i in range(n):
             adjacency_matrix.matrix[i].append(1)
-        adjacency_matrix.matrix.append([1 if i != n - 1 else 0 for i in range(n)])
+        adjacency_matrix.matrix.append([1 if i != n else 0 for i in range(n + 1)])
         return adjacency_matrix
 
     def build_matrix_for_hypercube_graph(self, n):
