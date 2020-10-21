@@ -32,6 +32,12 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
         self.assertEqual(M.matrix, expected_matrix)
 
     def test_build_matrix_for_hypercube_graph(self):
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_hypercube_graph,
+            -1
+        )
+
         Q0 = self.factory.build_matrix_for_hypercube_graph(0)
         self.assertIsInstance(Q0, AdjacencyMatrix)
         self.assertEqual(Q0.matrix, [[0]])
@@ -68,6 +74,12 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
         self.assertEqual(Q3.matrix, expected_matrix)
 
     def test_build_matrix_for_path_graph(self):
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_path_graph,
+            0
+        )
+
         P1 = self.factory.build_matrix_for_path_graph(1)
         self.assertIsInstance(P1, AdjacencyMatrix)
         self.assertEqual(P1.matrix, [[0]])
@@ -179,6 +191,12 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
         ])
 
     def test_build_matrix_for_complete_graph(self):
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_graph,
+            0
+        )
+
         K1 = self.factory.build_matrix_for_complete_graph(1)
         self.assertIsInstance(K1, AdjacencyMatrix)
         self.assertEqual(K1.matrix, [[0]])
@@ -227,6 +245,22 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             self.factory.InvalidMatrixParameter,
             self.factory.build_matrix_for_complete_bipartite_graph,
             (1,)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_bipartite_graph,
+
+            (0, 1)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_bipartite_graph,
+            (1, 0)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_complete_bipartite_graph,
+            (0, 0)
         )
         K1_1 = self.factory.build_matrix_for_complete_bipartite_graph([1, 1])
         self.assertIsInstance(K1_1, AdjacencyMatrix)
@@ -292,6 +326,19 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
         ])
 
     def test_build_matrix_for_star_graph(self):
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_star_graph,
+            0
+        )
+
+        S1 = self.factory.build_matrix_for_star_graph(1)
+        self.assertIsInstance(S1, AdjacencyMatrix)
+        self.assertEqual(S1.matrix,[
+            [0, 1],
+            [1, 0],
+        ])
+
         S2 = self.factory.build_matrix_for_star_graph(2)
         self.assertIsInstance(S2, AdjacencyMatrix)
         self.assertEqual(S2.matrix,[

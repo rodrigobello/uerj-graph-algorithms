@@ -12,7 +12,7 @@ class App:
             print("1 - Carregar um Grafo")
             print("2 - Criar um Grafo")
             print("3 - Gerar grafo das Classes Especiais")
-            option = input("Opção (1/2): ")
+            option = input("Opção (1-3): ")
             if option == '1':
                 self.load_graph()
             elif option == '2':
@@ -20,7 +20,7 @@ class App:
             elif option == '3':
                 self.create_special_class_graph()
             else:
-                print(f"Opção inválida: {option}. Precisa ser 1 ou 2!")
+                print(f"Opção '{option}' inválida.")
                 continue
 
     def load_graph(self):
