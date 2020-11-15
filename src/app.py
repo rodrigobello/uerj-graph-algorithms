@@ -26,8 +26,7 @@ class App:
     def load_graph(self):
         graph_name = input("Digite o nome do grafo: ")
         try:
-            self.graph_store.print_adjacency_matrix(graph_name)
-            self.graph_store.print_number_of_connected_components(graph_name)
+            self.print_graph_summary(graph_name)
         except self.graph_store.GraphDoesNotExist:
             option = input(f"Ainda não existe um grafo carregado com o nome {graph_name}, gostaria de criar (S/n)? ")
             return self.create_graph(graph_name) if option in ('s', 'S') else exit()
@@ -37,9 +36,13 @@ class App:
         n = int(input(f"Digite a ordem N do grafo '{graph_name}': "))
         upper_triangle = self.load_upper_triangle(n)
         self.graph_store.save_adjacency_matrix_from_upper_triangle(graph_name, n, upper_triangle)
+        self.print_graph_summary(graph_name)
+        print(f"Grafo '{graph_name}' armazenado com sucesso!")
+
+    def print_graph_summary(self, graph_name):
         self.graph_store.print_adjacency_matrix(graph_name)
         self.graph_store.print_number_of_connected_components(graph_name)
-        print(f"Grafo '{graph_name}' armazenado com sucesso!")
+        self.graph_store.print_vertex_coloring_by_greedy_algorithm(graph_name)
 
     def create_special_class_graph(self):
         available_inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
@@ -58,8 +61,7 @@ class App:
         else:
             n = int(input(f"Informe o valor de n: "))
         graph_name = self.graph_store.save_special_class_graph(class_name, n)
-        self.graph_store.print_adjacency_matrix(graph_name)
-        self.graph_store.print_number_of_connected_components(graph_name)
+        self.print_graph_summary(graph_name)
         print(f"Grafo '{graph_name}' armazenado com sucesso!")
 
     def load_upper_triangle(self, n):

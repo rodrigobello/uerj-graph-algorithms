@@ -23,9 +23,18 @@ class GraphStoreTestCase(TestCase):
         self.store.print_number_of_connected_components('mock')
         self.assertEqual(mock_stdout.getvalue(), "Número de componentes conexas: 4\n")
 
+    @mock.patch('sys.stdout', new_callable=io.StringIO)
+    def test_print_vertex_coloring_by_greedy_algorithm_will_not_raise_exception_if_graph_exists(self, mock_stdout):
+        M = mock.Mock()
+        M.vertex_coloring = [0, 1, 2]
+        self.store.adjacency_matrices['mock'] = M
+        self.store.print_vertex_coloring_by_greedy_algorithm('mock')
+        self.assertEqual(mock_stdout.getvalue(), "Vetor de coloração utilizando 3 cores: [0, 1, 2]\n")
+
     def test_print_matrix_will_raise_exception(self):
         self.assertRaises(GraphStore.GraphDoesNotExist, self.store.print_adjacency_matrix, 'random')
         self.assertRaises(GraphStore.GraphDoesNotExist, self.store.print_number_of_connected_components, 'random')
+        self.assertRaises(GraphStore.GraphDoesNotExist, self.store.print_vertex_coloring_by_greedy_algorithm, 'random')
 
     def test_save_adjacency_matrix_from_upper_triangle(self):
         self.store.save_adjacency_matrix_from_upper_triangle('mock', 5, [1, 1, 0, 1, 1, 0, 0, 1, 0, 1])

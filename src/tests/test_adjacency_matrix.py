@@ -100,3 +100,14 @@ class AdjacencyMatrixTestCase(TestCase):
             [0, 0, 0, 0, 0],
         ]
         self.assertEqual(M.number_of_connected_components, 3)
+
+    def test_greedy_coloring(self):
+        M = AdjacencyMatrix(5)
+        M.matrix = [
+            [0, 1, 0, 0, 1],
+            [1, 0, 1, 0, 1],
+            [0, 1, 0, 1, 0],
+            [0, 0, 1, 0, 1],
+            [1, 1, 0, 1, 0],
+        ]
+        self.assertEqual(M.vertex_coloring, [0, 1, 0, 1, 2])

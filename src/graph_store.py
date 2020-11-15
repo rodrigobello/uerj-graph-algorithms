@@ -20,6 +20,14 @@ class GraphStore:
             raise self.GraphDoesNotExist()
         print(f"Número de componentes conexas: {adjacency_matrix.number_of_connected_components}")
 
+    def print_vertex_coloring_by_greedy_algorithm(self, graph_name):
+        adjacency_matrix = self.adjacency_matrices.get(graph_name)
+        if not adjacency_matrix:
+            raise self.GraphDoesNotExist()
+        vertex_coloring = adjacency_matrix.vertex_coloring
+        used_colors = max(vertex_coloring) + 1
+        print(f"Vetor de coloração utilizando {used_colors} cores: {vertex_coloring}")
+
     def save_adjacency_matrix_from_upper_triangle(self, graph_name, n, upper_triangle):
         adjacency_matrix = self.factory.build_matrix_from_upper_triangle(n, upper_triangle)
         self.adjacency_matrices[graph_name] = adjacency_matrix

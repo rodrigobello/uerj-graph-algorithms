@@ -33,6 +33,10 @@ class AdjacencyMatrix:
             nodes = list(set(nodes) - set(reachability_tree.keys()))
         return number_of_connected_components
 
+    @property
+    def vertex_coloring(self):
+        return self.greedy_coloring()
+
     def bfs(self, node_index):
         queue = []
         reachability_tree = {
@@ -60,6 +64,17 @@ class AdjacencyMatrix:
             for k, v in reachability_tree.items()
             if v['color'] == 'BLACK'
         }
+
+    def greedy_coloring(self):
+        colors = [-1 for _ in range(self.n)]
+        colors[0] = 0
+        for node in range(1, self.n):
+            used_colors = set([colors[x] for x in self.get_neighbors(node)])
+            node_color = 0
+            while node_color in used_colors:
+                node_color += 1
+            colors[node] = node_color
+        return colors
 
     def get_neighbors(self, node_index):
         return [
