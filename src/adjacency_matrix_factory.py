@@ -105,5 +105,48 @@ class AdjacencyMatrixFactory:
                     adjacency_matrix.matrix[i][j] = 1 if i + j == adjacency_matrix.n - 1 else 0
         return adjacency_matrix
 
+    def build_matrix_for_mycielski_graph(self, n):
+        try:
+            omega, chi = n
+        except Exception:
+            raise self.InvalidMatrixParameter('Parâmetro inválido! Os valores ω e χ de Mω,χ devem ser separados por virgula.')
+        if not 2 <= omega <= chi:
+            raise self.InvalidMatrixParameter('Parâmetro inválido! Os valores ω e χ de Mω,χ devem respeitar: 2 <= ω <= χ.')
+        if omega == chi:
+            return self.build_matrix_for_complete_graph(omega)
+        previous_mycielsky_graph = self.build_matrix_for_mycielski_graph((omega, chi - 1))
+
+        n = self._get_mycielsky_vertex_count(omega, chi)
+        n_without_universal_vertex = n - 1
+        adjacency_matrix = AdjacencyMatrix(n)
+        limit = n_without_universal_vertex//2
+
+        for row in range(n_without_universal_vertex):
+            for col in range(n_without_universal_vertex):
+                if row >= limit and col >= limit:
+                    adjacency_matrix.matrix[row][col] = 0
+                elif row >= limit and col < limit:
+                    adjacency_matrix.matrix[row][col] = previous_mycielsky_graph.matrix[row - limit][col]
+                elif row < limit and col >= limit:
+                    adjacency_matrix.matrix[row][col] = previous_mycielsky_graph.matrix[row][col - limit]
+                else:
+                    adjacency_matrix.matrix[row][col] = previous_mycielsky_graph.matrix[row][col]
+
+        for row in range(n_without_universal_vertex):
+            if row < limit:
+                adjacency_matrix.matrix[row][-1] = 0
+            else:
+                adjacency_matrix.matrix[row][-1] = 1
+
+        for col in range(n):
+            adjacency_matrix.matrix[-1][col] = 1 if col >= limit and col != n - 1 else 0
+
+        return adjacency_matrix
+
+    def _get_mycielsky_vertex_count(self, omega, chi):
+        if omega == chi:
+            return omega
+        return 2 * self._get_mycielsky_vertex_count(omega, chi - 1) + 1
+
     class InvalidMatrixParameter(Exception):
         pass

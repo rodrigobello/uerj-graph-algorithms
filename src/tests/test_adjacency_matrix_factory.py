@@ -365,3 +365,64 @@ class AdjacencyMatrixFactoryTestCase(TestCase):
             [1, 0, 0, 0, 0],
             [1, 0, 0, 0, 0],
         ])
+
+    def test_build_matrix_for_mycielski_graph(self):
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_mycielski_graph,
+            1
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_mycielski_graph,
+            (1,)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_mycielski_graph,
+
+            (0, 0)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_mycielski_graph,
+            (1, 1)
+        )
+        self.assertRaises(
+            self.factory.InvalidMatrixParameter,
+            self.factory.build_matrix_for_mycielski_graph,
+            (3, 2)
+        )
+
+        M2_2 = self.factory.build_matrix_for_mycielski_graph((2, 2))
+        self.assertIsInstance(M2_2, AdjacencyMatrix)
+        self.assertEqual(M2_2.matrix,[
+            [0, 1],
+            [1, 0],
+        ])
+
+        M2_3 = self.factory.build_matrix_for_mycielski_graph((2, 3))
+        self.assertIsInstance(M2_3, AdjacencyMatrix)
+        self.assertEqual(M2_3.matrix,[
+            [0, 1, 0, 1, 0],
+            [1, 0, 1, 0, 0],
+            [0, 1, 0, 0, 1],
+            [1, 0, 0, 0, 1],
+            [0, 0, 1, 1, 0],
+        ])
+
+        M2_4 = self.factory.build_matrix_for_mycielski_graph((2, 4))
+        self.assertIsInstance(M2_4, AdjacencyMatrix)
+        self.assertEqual(M2_4.matrix,[
+            [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0],
+            [1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0],
+            [1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
+            [0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
+            [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        ])

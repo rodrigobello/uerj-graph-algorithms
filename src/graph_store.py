@@ -35,10 +35,9 @@ class GraphStore:
             fp.write(str(adjacency_matrix))
 
     def save_special_class_graph(self, class_name, n):
+        graph_size = f'n{n}'
         if class_name == C.COMPLETE_GRAPH:
             adjacency_matrix = self.factory.build_matrix_for_complete_graph(n)
-        elif class_name == C.COMPLETE_BIPARTITE_GRAPH:
-            adjacency_matrix = self.factory.build_matrix_for_complete_bipartite_graph(n)
         elif class_name == C.STAR_GRAPH:
             adjacency_matrix = self.factory.build_matrix_for_star_graph(n)
         elif class_name == C.CYCLE_GRAPH:
@@ -49,10 +48,15 @@ class GraphStore:
             adjacency_matrix = self.factory.build_matrix_for_path_graph(n)
         elif class_name == C.HYPERCUBE_GRAPH:
             adjacency_matrix = self.factory.build_matrix_for_hypercube_graph(n)
+        elif class_name == C.COMPLETE_BIPARTITE_GRAPH:
+            adjacency_matrix = self.factory.build_matrix_for_complete_bipartite_graph(n)
+            graph_size = f'n{n[0]},{n[1]}'
+        elif class_name == C.MYCIELSKI_GRAPH:
+            adjacency_matrix = self.factory.build_matrix_for_mycielski_graph(n)
+            graph_size = f'omega{n[0]},chi{n[1]}'
         else:
             raise self.SpecialGraphClassDoesNotExist()
 
-        graph_size = f'n{n}' if class_name != C.COMPLETE_BIPARTITE_GRAPH else f'n{n[0]},{n[1]}'
         graph_name = dict(C.SPECIAL_CLASS_GRAPH_NAMES)[class_name] % graph_size
         self.adjacency_matrices[graph_name] = adjacency_matrix
         with open(f'{self.graph_store_path}/{graph_name}.txt', 'w+') as fp:

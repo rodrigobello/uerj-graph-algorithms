@@ -45,9 +45,9 @@ class App:
         self.graph_store.print_vertex_coloring_by_greedy_algorithm(graph_name)
 
     def create_special_class_graph(self):
-        available_inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-        print("(a) Completo Kn\n(b) Bipartido Completo Kn1,n2\n(c) Estrela Sn\n(d) Ciclo Cn, n>=3\n(e) Roda Wn, n>=3\n(f) Caminho Pn\n(g) Cubo Qn")
-        user_input = input("Selecione uma das classes acima (a-g): ")
+        available_inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        print("(a) Completo Kn\n(b) Bipartido Completo Kn1,n2\n(c) Estrela Sn\n(d) Ciclo Cn, n>=3\n(e) Roda Wn, n>=3\n(f) Caminho Pn\n(g) Cubo Qn\n(h) Mycielski Mω,χ")
+        user_input = input("Selecione uma das classes acima (a-h): ")
         try:
             special_class_index = available_inputs.index(user_input)
             class_name = C.SPECIAL_CLASS_GRAPHS[special_class_index]
@@ -56,6 +56,9 @@ class App:
         if class_name == C.COMPLETE_BIPARTITE_GRAPH:
             n1_n2 = input(f"Informe o valor de n1 e n2 (separados por virgula, ex: '4,5' para n1 = 4 e n2 = 5): ")
             n = [int(x) for x in n1_n2.split(',')]
+        elif class_name == C.MYCIELSKI_GRAPH:
+            omega_chi = input(f"Informe o valor de ω e χ (separados por virgula, ex: '4,5' para ω = 4 e χ = 5): ")
+            n = [int(x) for x in omega_chi.split(',')]
         elif class_name in (C.CYCLE_GRAPH, C.WHEEL_GRAPH, C.STAR_GRAPH):
             n = int(input(f"Informe o valor de n (deve ser maior ou igual a 3): "))
         else:
