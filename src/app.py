@@ -43,6 +43,7 @@ class App:
         self.graph_store.print_adjacency_matrix(graph_name)
         self.graph_store.print_number_of_connected_components(graph_name)
         self.graph_store.print_vertex_coloring_by_greedy_algorithm(graph_name)
+        self.graph_store.print_has_eulerian_path(graph_name)
 
     def create_special_class_graph(self):
         available_inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']

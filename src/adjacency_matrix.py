@@ -9,33 +9,37 @@ class AdjacencyMatrix:
     def n(self):
         return len(self.matrix)
 
-    def set_upper_triangle(self, upper_m):
-        for i in range(self.n - 1):
-            for j in range(i + 1, self.n):
-                self.matrix[i][j] = upper_m.pop(0)
-
-    def fill_lower_triangle(self):
-        for i in range(1, self.n):
-            for j in range(i):
-                self.matrix[i][j] = self.matrix[j][i]
-
-    def fill_main_diagonal(self):
-        for i in range(self.n):
-            self.matrix[i][i] = 0
+    @property
+    def has_eulerian_path(self):
+        if hasattr(self, '_has_eulerian_path'):
+            return self._has_eulerian_path
+        neighbor_sum = [sum(self.matrix[node]) for node in range(self.n)]
+        has_only_one_connected_component = self.number_of_connected_components == 1
+        has_only_nodes_with_even_degree = not any([i % 2 for i in neighbor_sum])
+        has_eulerian_path = has_only_one_connected_component and has_only_nodes_with_even_degree
+        setattr(self, '_has_eulerian_path', has_eulerian_path)
+        return has_eulerian_path
 
     @property
     def number_of_connected_components(self):
-        number_of_connected_components = 0
+        if hasattr(self, '_number_of_connected_components'):
+            return self._number_of_connected_components
+        count = 0
         nodes = list(range(self.n))
         while nodes:
             reachability_tree = self.bfs(random.choice(nodes))
-            number_of_connected_components += 1
+            count += 1
             nodes = list(set(nodes) - set(reachability_tree.keys()))
-        return number_of_connected_components
+        setattr(self, '_number_of_connected_components', count)
+        return count
 
     @property
     def vertex_coloring(self):
-        return self.greedy_coloring()
+        if hasattr(self, '_vertex_coloring'):
+            return self._vertex_coloring
+        coloring = self.greedy_coloring()
+        setattr(self, '_vertex_coloring', coloring)
+        return coloring
 
     def bfs(self, node_index):
         queue = []
@@ -81,6 +85,20 @@ class AdjacencyMatrix:
             index for index, edges in enumerate(self.matrix[node_index])
             if edges
         ]
+
+    def set_upper_triangle(self, upper_m):
+        for i in range(self.n - 1):
+            for j in range(i + 1, self.n):
+                self.matrix[i][j] = upper_m.pop(0)
+
+    def fill_lower_triangle(self):
+        for i in range(1, self.n):
+            for j in range(i):
+                self.matrix[i][j] = self.matrix[j][i]
+
+    def fill_main_diagonal(self):
+        for i in range(self.n):
+            self.matrix[i][i] = 0
 
     def __str__(self):
         return '\n'.join(' '.join(map(str,sl)) for sl in self.matrix)

@@ -111,3 +111,58 @@ class AdjacencyMatrixTestCase(TestCase):
             [1, 1, 0, 1, 0],
         ]
         self.assertEqual(M.vertex_coloring, [0, 1, 0, 1, 2])
+
+    def test_has_eulerian_path(self):
+        M1 = AdjacencyMatrix(7)
+        M1.matrix = [
+            [0, 1, 1, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 1, 0, 1],
+            [0, 0, 0, 0, 1, 1, 0],
+        ]
+        self.assertFalse(M1.has_eulerian_path)
+
+        M2 = AdjacencyMatrix(4)
+        M2.matrix = [
+            [0, 1, 1, 0],
+            [1, 0, 0, 1],
+            [1, 0, 0, 1],
+            [0, 1, 1, 0],
+        ]
+        self.assertTrue(M2.has_eulerian_path)
+
+        M3 = AdjacencyMatrix(3)
+        M3.matrix = [
+            [0, 1, 1],
+            [1, 0, 1],
+            [1, 1, 0],
+        ]
+        self.assertTrue(M3.has_eulerian_path)
+
+    def test_adjacency_matrix_is_caching_properties(self):
+        M = AdjacencyMatrix(7)
+        M.matrix = [
+            [0, 1, 1, 0, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 1, 0, 1],
+            [0, 0, 0, 0, 1, 1, 0],
+        ]
+        self.assertEqual(M.number_of_connected_components, 2)
+        self.assertFalse(M.has_eulerian_path)
+        self.assertEqual(M.vertex_coloring, [0, 1, 1, 0, 0, 1, 2])
+
+        M.matrix = [
+            [0, 1, 1],
+            [1, 0, 1],
+            [1, 1, 0],
+        ]
+
+        self.assertEqual(M.number_of_connected_components, 2)
+        self.assertFalse(M.has_eulerian_path)
+        self.assertEqual(M.vertex_coloring, [0, 1, 1, 0, 0, 1, 2])
